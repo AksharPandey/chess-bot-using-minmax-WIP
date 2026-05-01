@@ -28,17 +28,9 @@ def eval_func(board):
                 score += -100000
             elif tile == 'WK':
                 score += 100000
+
+    
     return score
-
-
-board1 = [["BR", "BN", "BB", "BQ", "BK", "BB", "BN", "BR"],
-    ["BP", "BP", "BP", "BP", "BP", "BP", "BP", "BP"],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    ["WP", "WP", "WP", "WP", "WP", "WP", "WP", "WP"],
-    ["WR", "WN", "WB", "WQ", "WK", "WB", "WN", "WR"]]
 
 
 def minimax(board, depth, turn):
@@ -47,20 +39,64 @@ def minimax(board, depth, turn):
         return x
 
     elif depth < 4:
-        score_max = 0
+        if turn == 'W':
+            score_max = float('-inf')
+            x = gr.legal_filter(board, turn)
+            for y in x:
+                source, dest = y
+                board_temp = [row[:] for row in board]  # Couldnt figure out how to create a changable temp without changing the original board. Ai'ed it
+                board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
+                board_temp[source[0]][source[1]] = 0
+                score = minimax(board_temp, depth-1, 'B')
+                if score > score_max:
+                    score_max = score
+
+        elif turn == 'B':
+            score_max = float('inf')
+            x = gr.legal_filter(board, turn)
+            for y in x:
+                source, dest = y
+                board_temp = [row[:] for row in board]
+                board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
+                board_temp[source[0]][source[1]] = 0
+                score = minimax(board_temp, depth-1, 'W')
+                if score < score_max:
+                    score_max = score
+    return score_max
+
+def get_best_move(board, depth, turn):
+    if depth == 0:
+        x = eval_func(board)
+        return x
+
+    elif depth < 4:
         move_max = []
         if turn == 'W':
-            x = gr.legal_filter(board)
+            score_max = float('-inf')
+            x = gr.legal_filter(board, turn)
             for y in x:
-                for source, dest in y:
-                    board_temp = [row[:] for row in board]  # Couldnt figure out how to create a changable temp without changing the original board. Ai'ed it
-                    board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
-                    board_temp[source[0]][source[1]] = 0
-                    score = eval_func(board_temp)
-                    if score > score_max:
-                        score_max = score
+                source, dest = y
+                board_temp = [row[:] for row in board]  # Couldnt figure out how to create a changable temp without changing the original board. Ai'ed it
+                board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
+                board_temp[source[0]][source[1]] = 0
+                score = minimax(board_temp, depth-1, 'B')
+                if score > score_max:
+                    score_max = score
+                    move_max = [source, dest]
 
-
+        elif turn == 'B':
+            score_max = float('inf')
+            x = gr.legal_filter(board, turn)
+            for y in x:
+                source, dest = y
+                board_temp = [row[:] for row in board]
+                board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
+                board_temp[source[0]][source[1]] = 0
+                score = minimax(board_temp, depth-1, 'W')
+                if score < score_max:
+                    score_max = score
+                    move_max = [source, dest]
+    return move_max
 
 
 
