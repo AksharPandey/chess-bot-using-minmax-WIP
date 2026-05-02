@@ -51,8 +51,8 @@ Enter coordinates as row and column numbers (1-indexed). The board is printed af
  
 - No castling or en passant yet
 - No pawn promotion
-- Alpha-beta pruning not implemented yet — depth 2 is playable, depth 3+ gets slow
-- Terminal UI is minimal
+- Alpha-beta pruning not implemented yet — depth 3 is playable, depth 4+ gets slow
+- Terminal UI is minimal / Gonna add a GUI 
 
 ## What I learned
  
