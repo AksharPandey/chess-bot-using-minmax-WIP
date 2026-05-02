@@ -11,7 +11,9 @@ Built this as a project to sharpen my logical thinking and programming before st
 - Uses minimax search to pick the best move for the bot
 - Scores positions based on material count
 - Runs as a human vs bot game in the terminal
-- checkmate detection
+- Checkmate detection
+- Alpha beta pruning implemented
+
 ## Project Structure
  
 ```
@@ -51,7 +53,6 @@ Enter coordinates as row and column numbers (1-indexed). The board is printed af
  
 - No castling or en passant yet
 - No pawn promotion
-- Alpha-beta pruning not implemented yet — depth 3 is playable, depth 4+ gets slow
 - Terminal UI is minimal / Gonna add a GUI 
 
 ## What I learned
