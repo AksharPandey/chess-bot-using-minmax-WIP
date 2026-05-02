@@ -1,8 +1,8 @@
 # Python Chess Engine
  
-A chess engine I built from scratch in Python — no chess libraries, no shortcuts. Every piece of logic from move generation to the AI search algorithm is written manually.
+A chess engine I built from scratch in Python — no chess libraries, no shortcuts. Every piece of logic from move generation to the minmax algorithm is written manually.
  
-Built this as a project to sharpen my logical thinking and programming before starting university. Harder than I expected in the best way.
+Built this as a project to sharpen my logical thinking and programming before starting university. 
  
 ## What it does
  
