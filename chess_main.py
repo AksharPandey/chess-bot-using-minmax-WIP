@@ -1,6 +1,8 @@
 import engine as e
-import Move_Generation as mg
 import Game_rule as gr
+import random
+
+turn = random.choice(['W', 'B'])
 
 board = [["BR", "BN", "BB", "BQ", "BK", "BB", "BN", "BR"],
     ["BP", "BP", "BP", "BP", "BP", "BP", "BP", "BP"],
@@ -13,27 +15,30 @@ board = [["BR", "BN", "BB", "BQ", "BK", "BB", "BN", "BR"],
 
 counter = 0
 while True:
-    turn = ''
     if counter % 2 == 0:
         turn = 'W'
     else:
         turn = 'B'
 
-    if turn == 'W':
-        num = 1
+    print()
+    if counter % 2 == 0:
+        num = 8
         for z in board:
-            print([x if x != 0 else '--' for x in z], end='') # Couldn't figure out how to cleanly improvise board visual
+            print([x if x != 0 else '--' for x in z], end='')
             print(num)
-            num += 1
-        print('  1  ', '  2  ', '  3  ', '  4  ', '  5  ', '  6  ', '  7  ', '  8  ')
+            num -= 1
+        print('  a  ', '  b  ', '  c  ', '  d  ', '  e  ', '  f  ', '  g  ', '  h  ')
+        print()
 
+        source = input("Enter source coordinate: ")
+        dest = input("Enter destination coordinate: ")
+        col = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+        source2 = col.index(source[0])
+        source1 = 8 - int(source[1])
+        dest2 = col.index(dest[0])
+        dest1 = 8 - int(dest[1])
 
-
-        source1 = int(input("Enter starting coordinate for piece (row): ")) - 1
-        source2 = int(input("Enter starting coordinate for piece (column): ")) - 1
-        dest1 = int(input("Enter ending coordinate for piece (row): ")) - 1
-        dest2 = int(input("Enter ending coordinate for piece (column): ")) - 1
-
+        print(source2, source1, dest2, dest1)
         legal_moves = gr.legal_filter(board, turn)
 
         if [[source1, source2], [dest1, dest2]] in legal_moves:
@@ -45,17 +50,11 @@ while True:
             continue
 
     else:
-        move = e.get_best_move(board, 2, turn)
+        move = e.get_best_move(board, 3, turn)
         source, dest = move
         board[dest[0]][dest[1]] = board[source[0]][source[1]]
         board[source[0]][source[1]] = 0
 
     counter += 1
-
-
-
-
-
-
 
 
