@@ -58,5 +58,13 @@ Enter coordinates as row and column numbers (1-indexed). The board is printed af
  
 Writing move generation for sliding pieces taught me a lot about structuring directional loops cleanly. The hardest part was check detection — you have to simulate every candidate move on a board copy before committing, which is expensive but necessary. Minimax clicked once I stopped thinking about it as a tree and started thinking about it as two players taking turns being greedy.
 
-<img width="415" height="769" alt="image" src="https://github.com/user-attachments/assets/8fe79573-4528-44a9-ac87-19265a4a9fa8" /><img width="414" height="576" alt="image" src="https://github.com/user-attachments/assets/1f969b6e-9589-48db-a9a5-a9efcfff3d85" />
+## Bot vs Human Game
+<img width="410" height="835" alt="image" src="https://github.com/user-attachments/assets/4849d5fb-6895-4236-ab47-c48b84aaff77" />
+<img width="406" height="609" alt="image" src="https://github.com/user-attachments/assets/9136c482-f805-4193-8530-5c2f0206efc1" />
+
+
+## Bot vs Bot Game
+<img width="410" height="837" alt="image" src="https://github.com/user-attachments/assets/c2160c2d-46f0-4f94-bacf-36c5b4b22b19" />
+
+
 
