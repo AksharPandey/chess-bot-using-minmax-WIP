@@ -1,5 +1,6 @@
 import Move_Generation as mg
 
+
 def check_detection(board, turn):
     if turn == 'W':
         kings_pos = []
@@ -69,39 +70,37 @@ def check_detection(board, turn):
 
 
 def legal_filter(board, turn):
-    legal_turns = []
-    for num1, row in enumerate(board):
-        for num2, tile in enumerate(row):
-            if tile != 0 and tile[0] == turn:
-                if tile[1] == 'K':
-                    dest = mg.king(num1, num2, board, turn)
-                elif tile[1] == 'Q':
-                    dest = mg.queen(num1, num2, board, turn)
-                elif tile[1] == 'P':
-                    dest = mg.pawn(num1, num2, board, turn)
-                elif tile[1] == 'B':
-                    dest = mg.bishop(num1, num2, board, turn)
-                elif tile[1] == 'N':
-                    dest = mg.knight(num1, num2, board, turn)
-                elif tile[1] == 'R':
-                    dest = mg.rook(num1, num2, board, turn)
+    try:
+        legal_turns = []
+        for num1, row in enumerate(board):
+            for num2, tile in enumerate(row):
+                if tile != 0 and tile[0] == turn:
+                    if tile[1] == 'K':
+                        dest = mg.king(num1, num2, board, turn)
+                    elif tile[1] == 'Q':
+                        dest = mg.queen(num1, num2, board, turn)
+                    elif tile[1] == 'P':
+                        dest = mg.pawn(num1, num2, board, turn)
+                    elif tile[1] == 'B':
+                        dest = mg.bishop(num1, num2, board, turn)
+                    elif tile[1] == 'N':
+                        dest = mg.knight(num1, num2, board, turn)
+                    elif tile[1] == 'R':
+                        dest = mg.rook(num1, num2, board, turn)
+                    else:
+                        dest = 0
 
-                for index, x in enumerate(dest):
-                    board_temp = [row[:] for row in board]  # Couldnt figure out how to create a changable temp without changing the original board.
-                    board_temp[num1][num2] = 0
-                    board_temp[x[0]][x[1]] = tile
-                    cd = check_detection(board_temp, turn)
-                    if not cd:
-                        legal_turns.append([[num1, num2], x])
+                    for index, x in enumerate(dest):
+                        board_temp = [row[:] for row in board]
+                        # Couldn't figure out how to create a changeable temp without changing the original board.
+                        board_temp[num1][num2] = 0
+                        board_temp[x[0]][x[1]] = tile
+                        cd = check_detection(board_temp, turn)
+                        if not cd:
+                            legal_turns.append([[num1, num2], x])
 
+        return legal_turns
 
-    return legal_turns
-
-
-
-
-
-
-
-
-
+    except Exception as e:
+        print("Error in legal filter function", e)
+        return False
