@@ -144,7 +144,7 @@ def eval_func(board, turn):
         return False
 
 
-def minimax(board, depth, turn):
+def minimax(board, depth, turn, alpha=float('-inf'), beta=float('inf')):
     try:
         if depth == 0:
             x = eval_func(board, turn)
@@ -165,9 +165,12 @@ def minimax(board, depth, turn):
                     # Couldnt figure out how to create a changable temp without changing the original board. Ai'ed it
                     board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
                     board_temp[source[0]][source[1]] = 0
-                    score = minimax(board_temp, depth-1, 'B')
+                    score = minimax(board_temp, depth-1, 'B', alpha, beta)
                     if score > score_max:
                         score_max = score
+                        alpha = max(alpha, score_max)
+                        if beta >= alpha:
+                            break
 
             elif turn == 'B':
                 score_max = float('inf')
@@ -182,10 +185,12 @@ def minimax(board, depth, turn):
                     board_temp = [row[:] for row in board]
                     board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
                     board_temp[source[0]][source[1]] = 0
-                    score = minimax(board_temp, depth-1, 'W')
+                    score = minimax(board_temp, depth-1, 'W', alpha, beta)
                     if score < score_max:
                         score_max = score
-
+                        beta = min(beta, score_max)
+                        if beta <= alpha:
+                            break
         return score_max
 
     except Exception as e:
@@ -199,7 +204,7 @@ def get_best_move(board, depth, turn):
             x = eval_func(board, turn)
             return x
 
-        elif depth < 4:
+        elif depth <= 4:
             move_max = []
             if turn == 'W':
                 score_max = float('-inf')
