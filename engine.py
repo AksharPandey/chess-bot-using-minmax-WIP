@@ -1,9 +1,11 @@
-
 import Game_rule as gr
-def eval_func(board):
+import Move_Generation as mg
+
+
+def eval_func(board, turn):
     score = 0
-    for row in board:
-        for tile in row:
+    for num1, row in enumerate(board):
+        for num2, tile in enumerate(row):
             if tile == 'BP':
                 score += -1
             elif tile == 'WP':
@@ -29,16 +31,119 @@ def eval_func(board):
             elif tile == 'WK':
                 score += 100000
 
-    
+            #  Center Control
+            center = [[3, 4], [3, 3], [4, 3], [4, 4]]
+
+            if turn == 'W':
+                if tile != 0 and tile[0] == 'W' and [num1, num2] in center:
+                    score += -0.5
+            elif turn == 'B':
+                if tile != 0 and tile[0] == 'W' and [num1, num2] in center:
+                    score += 0.5
+
+            #  Piece square table thing, i understand a bit, im just going off based off that
+            #  Generated the piece square table values using AI, but realised that they would be too much according to
+            #  my scoring system rn, so imma just divide the values by 10
+
+            pawn_table = [[0, 0, 0, 0, 0, 0, 0, 0],
+                [50, 50, 50, 50, 50, 50, 50, 50],
+                [10, 10, 20, 30, 30, 20, 10, 10],
+                [5, 5, 10, 25, 25, 10, 5, 5],
+                [0, 0, 0, 20, 20, 0, 0, 0],
+                [5, -5, -10, 0, 0, -10, -5, 5],
+                [5, 10, 10, -20, -20, 10, 10, 5],
+                [0, 0, 0, 0, 0, 0, 0, 0]]
+
+            knight_table = [
+                [-50, -40, -30, -30, -30, -30, -40, -50],
+                [-40, -20, 0, 0, 0, 0, -20, -40],
+                [-30, 0, 10, 15, 15, 10, 0, -30],
+                [-30, 5, 15, 20, 20, 15, 5, -30],
+                [-30, 0, 15, 20, 20, 15, 0, -30],
+                [-30, 5, 10, 15, 15, 10, 5, -30],
+                [-40, -20, 0, 5, 5, 0, -20, -40],
+                [-50, -40, -30, -30, -30, -30, -40, -50]
+            ]
+
+            bishop_table = [
+                [-20, -10, -10, -10, -10, -10, -10, -20],
+                [-10, 0, 0, 0, 0, 0, 0, -10],
+                [-10, 0, 5, 10, 10, 5, 0, -10],
+                [-10, 5, 5, 10, 10, 5, 5, -10],
+                [-10, 0, 10, 10, 10, 10, 0, -10],
+                [-10, 10, 10, 10, 10, 10, 10, -10],
+                [-10, 5, 0, 0, 0, 0, 5, -10],
+                [-20, -10, -10, -10, -10, -10, -10, -20]
+            ]
+
+            rook_table = [
+                [0, 0, 0, 0, 0, 0, 0, 0],
+                [5, 10, 10, 10, 10, 10, 10, 5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [-5, 0, 0, 0, 0, 0, 0, -5],
+                [0, 0, 0, 5, 5, 0, 0, 0]
+            ]
+
+            queen_table = [
+                [-20, -10, -10, -5, -5, -10, -10, -20],
+                [-10, 0, 0, 0, 0, 0, 0, -10],
+                [-10, 0, 5, 5, 5, 5, 0, -10],
+                [-5, 0, 5, 5, 5, 5, 0, -5],
+                [0, 0, 5, 5, 5, 5, 0, -5],
+                [-10, 5, 5, 5, 5, 5, 0, -10],
+                [-10, 0, 5, 0, 0, 0, 0, -10],
+                [-20, -10, -10, -5, -5, -10, -10, -20]
+            ]
+
+            king_table = [
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-30, -40, -40, -50, -50, -40, -40, -30],
+                [-20, -30, -30, -40, -40, -30, -30, -20],
+                [-10, -20, -20, -20, -20, -20, -20, -10],
+                [20, 20, 0, 0, 0, 0, 20, 20],
+                [20, 30, 10, 0, 0, 10, 30, 20]
+            ]
+
+            if tile == 'BP':
+                score += pawn_table[::-1][num1][num2]/100
+            elif tile == 'WP':
+                score += pawn_table[num1][num2]/100
+            elif tile == 'BN':
+                score += knight_table[::-1][num1][num2]/100
+            elif tile == 'WN':
+                score += knight_table[num1][num2]/100
+            elif tile == 'BB':
+                score += bishop_table[::-1][num1][num2]/100
+            elif tile == 'WB':
+                score += bishop_table[num1][num2]/100
+            elif tile == 'BR':
+                score += rook_table[::-1][num1][num2]/100
+            elif tile == 'WR':
+                score += rook_table[num1][num2]/100
+            elif tile == 'BQ':
+                score += queen_table[::-1][num1][num2]/100
+            elif tile == 'WQ':
+                score += queen_table[num1][num2]/100
+            elif tile == 'BK':
+                score += king_table[::-1][num1][num2]/100
+            elif tile == 'WK':
+                score += king_table[num1][num2]/100
+
     return score
+
 
 
 def minimax(board, depth, turn):
     if depth == 0:
-        x = eval_func(board)
+        x = eval_func(board, turn)
         return x
 
-    elif depth < 4:
+    elif depth <= 4:
         if turn == 'W':
             score_max = float('-inf')
             x = gr.legal_filter(board, turn)
