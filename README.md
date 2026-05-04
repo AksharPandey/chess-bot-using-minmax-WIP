@@ -3,6 +3,7 @@
 A chess engine I built from scratch in Python — no chess libraries, no shortcuts. Every piece of logic from move generation to the minmax algorithm is written manually.
  
 Built this as a project to sharpen my logical thinking and programming before starting university. 
+Pygame GUI exists but isnt included in the project
  
 ## What it does
  
