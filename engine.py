@@ -1,5 +1,69 @@
 import Game_rule as gr
 
+pawn_table = [[0, 0, 0, 0, 0, 0, 0, 0],
+              [50, 50, 50, 50, 50, 50, 50, 50],
+              [10, 10, 20, 30, 30, 20, 10, 10],
+              [5, 5, 10, 25, 25, 10, 5, 5],
+              [0, 0, 0, 20, 20, 0, 0, 0],
+              [5, -5, -10, 0, 0, -10, -5, 5],
+              [5, 10, 10, -20, -20, 10, 10, 5],
+              [0, 0, 0, 0, 0, 0, 0, 0]]
+
+knight_table = [
+    [-50, -40, -30, -30, -30, -30, -40, -50],
+    [-40, -20, 0, 0, 0, 0, -20, -40],
+    [-30, 0, 10, 15, 15, 10, 0, -30],
+    [-30, 5, 15, 20, 20, 15, 5, -30],
+    [-30, 0, 15, 20, 20, 15, 0, -30],
+    [-30, 5, 10, 15, 15, 10, 5, -30],
+    [-40, -20, 0, 5, 5, 0, -20, -40],
+    [-50, -40, -30, -30, -30, -30, -40, -50]
+]
+
+bishop_table = [
+    [-20, -10, -10, -10, -10, -10, -10, -20],
+    [-10, 0, 0, 0, 0, 0, 0, -10],
+    [-10, 0, 5, 10, 10, 5, 0, -10],
+    [-10, 5, 5, 10, 10, 5, 5, -10],
+    [-10, 0, 10, 10, 10, 10, 0, -10],
+    [-10, 10, 10, 10, 10, 10, 10, -10],
+    [-10, 5, 0, 0, 0, 0, 5, -10],
+    [-20, -10, -10, -10, -10, -10, -10, -20]
+]
+
+rook_table = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [5, 10, 10, 10, 10, 10, 10, 5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [-5, 0, 0, 0, 0, 0, 0, -5],
+    [0, 0, 0, 5, 5, 0, 0, 0]
+]
+
+queen_table = [
+    [-20, -10, -10, -5, -5, -10, -10, -20],
+    [-10, 0, 0, 0, 0, 0, 0, -10],
+    [-10, 0, 5, 5, 5, 5, 0, -10],
+    [-5, 0, 5, 5, 5, 5, 0, -5],
+    [0, 0, 5, 5, 5, 5, 0, -5],
+    [-10, 5, 5, 5, 5, 5, 0, -10],
+    [-10, 0, 5, 0, 0, 0, 0, -10],
+    [-20, -10, -10, -5, -5, -10, -10, -20]
+]
+
+king_table = [
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-30, -40, -40, -50, -50, -40, -40, -30],
+    [-20, -30, -30, -40, -40, -30, -30, -20],
+    [-10, -20, -20, -20, -20, -20, -20, -10],
+    [20, 20, 0, 0, 0, 0, 20, 20],
+    [20, 30, 10, 0, 0, 10, 30, 20]
+]
+
 
 def eval_func(board, turn):
     try:
@@ -29,87 +93,14 @@ def eval_func(board, turn):
                 elif tile == 'WQ':
                     score += 9
                 elif tile == 'BK':
-                    score += -100000
+                    score += -0
                 elif tile == 'WK':
-                    score += 100000
-
-                #  Center Control
-                center = [[3, 4], [3, 3], [4, 3], [4, 4]]
-
-                if turn == 'W':
-                    if tile != 0 and tile[0] == 'W' and [num1, num2] in center:
-                        score += -0.5
-                elif turn == 'B':
-                    if tile != 0 and tile[0] == 'W' and [num1, num2] in center:
-                        score += 0.5
+                    score += 0
 
                 #  Piece square table thing, i understand a bit, im just going off based off that
                 #  Generated the piece square table values using AI, but realised that they would be too much according to
                 #  my scoring system rn, so imma just divide the values by 10
 
-                pawn_table = [[0, 0, 0, 0, 0, 0, 0, 0],
-                    [50, 50, 50, 50, 50, 50, 50, 50],
-                    [10, 10, 20, 30, 30, 20, 10, 10],
-                    [5, 5, 10, 25, 25, 10, 5, 5],
-                    [0, 0, 0, 20, 20, 0, 0, 0],
-                    [5, -5, -10, 0, 0, -10, -5, 5],
-                    [5, 10, 10, -20, -20, 10, 10, 5],
-                    [0, 0, 0, 0, 0, 0, 0, 0]]
-
-                knight_table = [
-                    [-50, -40, -30, -30, -30, -30, -40, -50],
-                    [-40, -20, 0, 0, 0, 0, -20, -40],
-                    [-30, 0, 10, 15, 15, 10, 0, -30],
-                    [-30, 5, 15, 20, 20, 15, 5, -30],
-                    [-30, 0, 15, 20, 20, 15, 0, -30],
-                    [-30, 5, 10, 15, 15, 10, 5, -30],
-                    [-40, -20, 0, 5, 5, 0, -20, -40],
-                    [-50, -40, -30, -30, -30, -30, -40, -50]
-                ]
-
-                bishop_table = [
-                    [-20, -10, -10, -10, -10, -10, -10, -20],
-                    [-10, 0, 0, 0, 0, 0, 0, -10],
-                    [-10, 0, 5, 10, 10, 5, 0, -10],
-                    [-10, 5, 5, 10, 10, 5, 5, -10],
-                    [-10, 0, 10, 10, 10, 10, 0, -10],
-                    [-10, 10, 10, 10, 10, 10, 10, -10],
-                    [-10, 5, 0, 0, 0, 0, 5, -10],
-                    [-20, -10, -10, -10, -10, -10, -10, -20]
-                ]
-
-                rook_table = [
-                    [0, 0, 0, 0, 0, 0, 0, 0],
-                    [5, 10, 10, 10, 10, 10, 10, 5],
-                    [-5, 0, 0, 0, 0, 0, 0, -5],
-                    [-5, 0, 0, 0, 0, 0, 0, -5],
-                    [-5, 0, 0, 0, 0, 0, 0, -5],
-                    [-5, 0, 0, 0, 0, 0, 0, -5],
-                    [-5, 0, 0, 0, 0, 0, 0, -5],
-                    [0, 0, 0, 5, 5, 0, 0, 0]
-                ]
-
-                queen_table = [
-                    [-20, -10, -10, -5, -5, -10, -10, -20],
-                    [-10, 0, 0, 0, 0, 0, 0, -10],
-                    [-10, 0, 5, 5, 5, 5, 0, -10],
-                    [-5, 0, 5, 5, 5, 5, 0, -5],
-                    [0, 0, 5, 5, 5, 5, 0, -5],
-                    [-10, 5, 5, 5, 5, 5, 0, -10],
-                    [-10, 0, 5, 0, 0, 0, 0, -10],
-                    [-20, -10, -10, -5, -5, -10, -10, -20]
-                ]
-
-                king_table = [
-                    [-30, -40, -40, -50, -50, -40, -40, -30],
-                    [-30, -40, -40, -50, -50, -40, -40, -30],
-                    [-30, -40, -40, -50, -50, -40, -40, -30],
-                    [-30, -40, -40, -50, -50, -40, -40, -30],
-                    [-20, -30, -30, -40, -40, -30, -30, -20],
-                    [-10, -20, -20, -20, -20, -20, -20, -10],
-                    [20, 20, 0, 0, 0, 0, 20, 20],
-                    [20, 30, 10, 0, 0, 10, 30, 20]
-                ]
                 if tile == 0:
                     continue
                 elif tile == 'BP':
@@ -147,51 +138,41 @@ def eval_func(board, turn):
 def minimax(board, depth, turn, alpha=float('-inf'), beta=float('inf')):
     try:
         if depth == 0:
-            x = eval_func(board, turn)
-            return x
+            return eval_func(board, turn)
 
-        elif depth <= 4:
-            if turn == 'W':
-                score_max = float('-inf')
-                x = gr.legal_filter(board, turn)
-                if len(x) == 0:
-                    if gr.check_detection(board, turn):
-                        return float('-inf')
-                    else:
-                        return 0
-                for y in x:
-                    source, dest = y
-                    board_temp = [row[:] for row in board]
-                    # Couldnt figure out how to create a changable temp without changing the original board. Ai'ed it
-                    board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
-                    board_temp[source[0]][source[1]] = 0
-                    score = minimax(board_temp, depth-1, 'B', alpha, beta)
-                    if score > score_max:
-                        score_max = score
-                        alpha = max(alpha, score_max)
-                        if beta >= alpha:
-                            break
+        moves = gr.legal_filter(board, turn)
+        if len(moves) == 0:
+            if gr.check_detection(board, turn):
+                return -1000 - depth if turn == 'W' else 1000 + depth
+            return 0
 
-            elif turn == 'B':
-                score_max = float('inf')
-                x = gr.legal_filter(board, turn)
-                if len(x) == 0:
-                    if gr.check_detection(board, turn):
-                        return float('inf')
-                    else:
-                        return 0
-                for y in x:
-                    source, dest = y
-                    board_temp = [row[:] for row in board]
-                    board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
-                    board_temp[source[0]][source[1]] = 0
-                    score = minimax(board_temp, depth-1, 'W', alpha, beta)
-                    if score < score_max:
-                        score_max = score
-                        beta = min(beta, score_max)
-                        if beta <= alpha:
-                            break
-        return score_max
+        if turn == 'W':
+            score_max = float('-inf')
+            for source, dest in moves:
+                board_temp = [row[:] for row in board]
+                board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
+                board_temp[source[0]][source[1]] = 0
+
+                score = minimax(board_temp, depth - 1, 'B', alpha, beta)
+                score_max = max(score_max, score)
+                alpha = max(alpha, score_max)
+                if beta <= alpha:      # Black already has a better option elsewhere
+                    break
+            return score_max
+
+        else:
+            score_min = float('inf')
+            for source, dest in moves:
+                board_temp = [row[:] for row in board]
+                board_temp[dest[0]][dest[1]] = board_temp[source[0]][source[1]]
+                board_temp[source[0]][source[1]] = 0
+
+                score = minimax(board_temp, depth - 1, 'W', alpha, beta)
+                score_min = min(score_min, score)
+                beta = min(beta, score_min)
+                if beta <= alpha:      # White already has a better option elsewhere
+                    break
+            return score_min
 
     except Exception as e:
         print("Error in minimax function", e)
@@ -209,6 +190,8 @@ def get_best_move(board, depth, turn):
             if turn == 'W':
                 score_max = float('-inf')
                 x = gr.legal_filter(board, turn)
+                x = sorted(x, key=lambda move: board[move[1][0]][move[1][1]] != 0, reverse=True)
+                move_max = list(x[0])
                 for y in x:
                     source, dest = y
                     board_temp = [row[:] for row in board]
@@ -223,6 +206,8 @@ def get_best_move(board, depth, turn):
             elif turn == 'B':
                 score_max = float('inf')
                 x = gr.legal_filter(board, turn)
+                x = sorted(x, key=lambda move: board[move[1][0]][move[1][1]] != 0, reverse=True)
+                move_max = list(x[0])
                 for y in x:
                     source, dest = y
                     board_temp = [row[:] for row in board]
