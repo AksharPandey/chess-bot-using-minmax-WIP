@@ -28,6 +28,10 @@ def check_detection(board, turn):
                 elif tile == 'BP':
                     opp_reach += mg.pawn(num1, num2, board, 'B')
 
+        for num1, row in enumerate(board):
+            for num2, tile in enumerate(row):
+                if tile == 'BK' and abs(num1 - kings_pos[0]) <= 1 and abs(num2 - kings_pos[1]) <= 1:
+                    opp_reach.append(kings_pos)
         if kings_pos in opp_reach:
             check = True
         else:
@@ -39,7 +43,7 @@ def check_detection(board, turn):
         kings_pos = []
         for num1, row in enumerate(board):
             for num2, tile in enumerate(row):
-                if tile == 'WK':
+                if tile == 'BK':
                     kings_pos.append(num1)
                     kings_pos.append(num2)
 
@@ -60,7 +64,10 @@ def check_detection(board, turn):
 
                 elif tile == 'WP':
                     opp_reach += mg.pawn(num1, num2, board, 'W')
-
+        for num1, row in enumerate(board):
+            for num2, tile in enumerate(row):
+                if tile == 'WK' and abs(num1 - kings_pos[0]) <= 1 and abs(num2 - kings_pos[1]) <= 1:
+                    opp_reach.append(kings_pos)
         if kings_pos in opp_reach:
             check = True
         else:
