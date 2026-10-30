@@ -69,7 +69,7 @@ try:
             source = input("Enter source coordinate (R to resign game): ")
 
             if source == 'R':
-                print("Game resigned")    
+                print("Game resigned")
                 break
 
             dest = input("Enter destination coordinate: ")
